@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios' 
 const baseUrl = 'https://mern-note-app-server.onrender.com/api/notes'
 
 const getAll = () => {
