@@ -11,12 +11,14 @@ app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>');
 });
 
+// Sends all notes
 app.get('/api/notes', (request, response) => {
   Note.find({}).then(notes => {
     response.json(notes)
   })
 })
 
+// Sends note of specified id
 app.get('/api/notes/:id', (request, response) => {
   const id = Number(request.params.id);
   Note.findById(id).then(note => {
@@ -24,15 +26,20 @@ app.get('/api/notes/:id', (request, response) => {
   })
 });
 
+// Deletes note of specified id
 app.delete('/api/notes/:id', (request, response) => {
   const id = Number(request.params.id);
   Note.findByIdAndRemove(id)
     .then((response) => {
       response.status(204).end();
     })
-    .catch((error) => next(error));
+    .catch(((error) => {
+      console.log(error);
+      next();
+    }));
 });
 
+// Updates importance of a note
 app.put('/api/notes/:id', (request, response) => {
   const body = request.body;
   const id = Number(request.params.id);
@@ -46,9 +53,13 @@ app.put('/api/notes/:id', (request, response) => {
     .then((updatedNote) => {
       response.json(updatedNote);
     })
-    .catch((error) => next(error));
+    .catch((error) => {
+      console.log(error);
+      next();
+    });
 });
 
+// Adds a new note
 app.post('/api/notes', (request, response) => {
   const body = request.body;
 
@@ -66,7 +77,7 @@ app.post('/api/notes', (request, response) => {
 
   note.save().then(savedNote => {
     response.json(savedNote);
-  })
+  });
 });
 
 const PORT = process.env.PORT || 3001;
