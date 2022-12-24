@@ -64,10 +64,10 @@ const App = () => {
       })
       .catch(err => {
         setErrorMessage(`'${note.content}' was already removed from the server`);
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
       })
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000)
       setNotes(notes.filter(n => n.id !== id));
   }
 
